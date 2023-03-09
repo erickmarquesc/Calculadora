@@ -1,5 +1,14 @@
+import { Calculator } from "./components/Calculator";
+import { GlobalStyle } from "./styles/global";
+
+
 export function App() {
   return (
-    <h1>olá mundo</h1>
+    <>
+    <GlobalStyle/>
+    <Calculator/>
+    </>
+    
+
   );
 };
