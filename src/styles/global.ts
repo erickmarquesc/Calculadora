@@ -23,13 +23,6 @@ body * {
   letter-spacing: -0.02em;
 }
 
-#last-calc {
-  text-align: right;
-  font-size: 20px;
-  line-height: 140%;
-  color: #6b6b6b;
-}
-
 .secondary {
   color: #975dfa;
 }
