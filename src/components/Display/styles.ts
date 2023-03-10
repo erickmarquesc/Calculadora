@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 export const DisplayContainer = styled.div`
-  margin-top: 54px;
+  
   padding-inline: 54px;
 
   #last-calc {
+  padding-top: 54px;
   text-align: right;
   font-size: 20px;
   line-height: 140%;
