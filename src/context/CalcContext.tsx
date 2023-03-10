@@ -32,7 +32,15 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
   };
 
   function handleSetOperator(operação: string) {
-    setOperator(operação);
+
+    if (operação === 'CE') {
+      setResult(0);
+      setOperator('#');
+      setValueFirstTerm(0);
+      setValueSecondTerm(0);
+    } else {
+      setOperator(operação);
+    }
   };
 
   function calcResult() {
@@ -50,12 +58,9 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
       case '/':
         setResult(valueFirstTerm / valueSecondTerm)
         break;
-      /* case '+/-':
-        setResult(valueFirstTerm + valueSecondTerm)
-        break;
       case '%':
-        setResult(valueFirstTerm + valueSecondTerm)
-        break; */
+        setResult((valueFirstTerm / 100) * valueSecondTerm)
+        break;
     }
   };
 

@@ -11,8 +11,8 @@ import { useCalcResult } from "../../context/CalcContext";
 
 export function Keyboard() {
 
-  
-  const { handleSetOperator, ValueTerm, calcResult} = useCalcResult();
+
+  const { handleSetOperator, ValueTerm, calcResult } = useCalcResult();
 
   return (
     <KeyboardContainer>
@@ -22,7 +22,9 @@ export function Keyboard() {
       <Button
         onClick={() => handleSetOperator('C')}
       >C</Button>
-      <Button>
+      <Button
+        onClick={() => handleSetOperator('%')}
+      >
         <img src={percent} alt="Percent" />
       </Button>
       <Button className="tertiary"
@@ -86,6 +88,6 @@ export function Keyboard() {
       >
         <img src={result} alt="Equals" />
       </Button>
-    </KeyboardContainer>
+    </KeyboardContainer >
   );
 };
