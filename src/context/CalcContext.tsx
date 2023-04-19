@@ -54,7 +54,7 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
       return;
     };
 
-    if (result !== 0 && mathOperation === '+/-') {
+    if (mathOperation === '+/-') {
       setResult(result * -1);
       return;
     };
