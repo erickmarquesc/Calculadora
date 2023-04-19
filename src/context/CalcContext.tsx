@@ -1,14 +1,14 @@
-import { createContext, ReactNode, useContext, useState } from "react"
+import { createContext, ReactNode, useContext, useState } from "react";
+import { FunctionsMath } from "../utils/functions_math";
 
 export interface ICalcContextType {
-
-  calcResult: () => void;
-  handleSetOperator: (operação: string) => void;
-  ValueTerm: (value: number) => void;
+  handleCalcAndSetResult: () => void;
+  handleSetMathOperation: (mathOperation: string) => void;
+  handleSetValueTerm: (value: number) => void;
   valueFirstTerm: number;
   valueSecondTerm: number;
   result: number;
-  operator: string;
+  mathOperator: string;
 };
 
 export interface ICalcProviderProps {
@@ -16,62 +16,81 @@ export interface ICalcProviderProps {
 };
 
 export const CalcContext = createContext({} as ICalcContextType);
+
 export function CalcContextProvider({ children }: ICalcProviderProps) {
-  
+
+  const [mathOperator, setMathOperator] = useState("#");
+
   const [valueFirstTerm, setValueFirstTerm] = useState(0);
   const [valueSecondTerm, setValueSecondTerm] = useState(0);
-  const [operator, setOperator] = useState("#");
+
   const [result, setResult] = useState(0);
 
-  function ValueTerm(value: number) {
-    if (operator === '#') {
-      return setValueFirstTerm(value);
+  const handleSetValueTerm = (term: number) => {
+    /* Caso nenhum operador tenha sido escolhido
+     * a condição será verdadeira: (mathOperator === '#') = TRUE
+     * ---
+     * Sendo assim podendo escolher o número para o primeiro termo,
+     * assim que a condição for FALSE o segundo termo poderá ser escolhido.
+     */
+    if (mathOperator === '#') {
+      return setValueFirstTerm(term);
     } else {
-      return setValueSecondTerm(value);
+      return setValueSecondTerm(term);
     }
   };
 
-  function handleSetOperator(operação: string) {
-
-    if (operação === 'CE') {
+  const handleSetMathOperation = (mathOperation: string) => {
+    if (mathOperation === 'C') {
       setResult(0);
-      setOperator('#');
+      setMathOperator('#');
       setValueFirstTerm(0);
       setValueSecondTerm(0);
-    } else {
-      setOperator(operação);
-    }
+      return;
+    };
+
+    if (mathOperation === 'CE') {
+      setValueSecondTerm(0);
+      return;
+    };
+
+    if (result !== 0 && mathOperation === '+/-') {
+      setResult(result * -1);
+      return;
+    };
+
+    return setMathOperator(mathOperation);
   };
 
-  function calcResult() {
+  const handleCalcAndSetResult = () => {
 
-    switch (operator) {
+    switch (mathOperator) {
       case '+':
-        setResult(valueFirstTerm + valueSecondTerm)
+        setResult(FunctionsMath(valueFirstTerm, valueSecondTerm).getSum)
         break;
       case '-':
-        setResult(valueFirstTerm - valueSecondTerm)
+        setResult(FunctionsMath(valueFirstTerm, valueSecondTerm).getSubtraction)
         break;
       case '*':
-        setResult(valueFirstTerm * valueSecondTerm)
+        setResult(FunctionsMath(valueFirstTerm, valueSecondTerm).getMultiplication)
         break;
       case '/':
-        setResult(valueFirstTerm / valueSecondTerm)
+        setResult(FunctionsMath(valueFirstTerm, valueSecondTerm).getDivision)
         break;
       case '%':
-        setResult((valueFirstTerm / 100) * valueSecondTerm)
+        setResult(FunctionsMath(valueFirstTerm, valueSecondTerm).getPercentage)
         break;
     }
   };
 
   return (
     <CalcContext.Provider value={{
-      calcResult,
-      ValueTerm,
-      handleSetOperator,
-      valueFirstTerm,
+      handleCalcAndSetResult,
+      handleSetMathOperation,
+      handleSetValueTerm,
       valueSecondTerm,
-      operator,
+      valueFirstTerm,
+      mathOperator,
       result,
     }}>
       {children}

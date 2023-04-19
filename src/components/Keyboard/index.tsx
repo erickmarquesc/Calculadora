@@ -1,93 +1,96 @@
-import { KeyboardContainer } from "./styles";
-import percent from "../../assets/percent.svg";
-import multiplication from "../../assets/x.svg";
-import divide from "../../assets/divide.svg";
-import plus from "../../assets/plus.svg";
-import minus from "../../assets/minus.svg";
-import plusminus from "../../assets/plusminus.svg";
-import result from "../../assets/result.svg";
-import { Button } from "./Button/styles";
+import { KeyboardContainer, KeyboardContainerTerms, KeyboardContent } from "./styles";
 import { useCalcResult } from "../../context/CalcContext";
+import { Button } from "./Button/styles";
+
+import plusminus from "../../assets/plusminus.svg";
+import multiplication from "../../assets/x.svg";
+import percent from "../../assets/percent.svg";
+import result from "../../assets/result.svg";
+import divide from "../../assets/divide.svg";
+import minus from "../../assets/minus.svg";
+import plus from "../../assets/plus.svg";
+
 
 export function Keyboard() {
 
+  const { handleSetMathOperation, handleSetValueTerm, handleCalcAndSetResult } = useCalcResult();
 
-  const { handleSetOperator, ValueTerm, calcResult } = useCalcResult();
+  const MathOperations = [
+    { operation: 'CE', color: 'secundary', img: '' },
+    { operation: 'C', color: 'secundary', img: '' },
+    { operation: '%', color: 'secundary', img: percent },
+    { operation: '/', color: 'tertiary', img: divide }];
+
+  const MathOperationsBase = [
+    { operation: '*', img: multiplication },
+    { operation: '-', img: minus },
+    { operation: '+', img: plus }];
+
+  const MathTerms = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
   return (
     <KeyboardContainer>
-      <Button className="secondary"
-        onClick={() => handleSetOperator('CE')}
-      >CE</Button>
-      <Button
-        onClick={() => handleSetOperator('C')}
-      >C</Button>
-      <Button
-        onClick={() => handleSetOperator('%')}
-      >
-        <img src={percent} alt="Percent" />
-      </Button>
-      <Button className="tertiary"
-        onClick={() => handleSetOperator('/')}
-      >
-        <img src={divide} alt="Divide" />
-      </Button>
-      <Button
-        onClick={() => ValueTerm(7)}
-      >7</Button>
-      <Button
-        onClick={() => ValueTerm(8)}
-      >8</Button>
-      <Button
-        onClick={() => ValueTerm(9)}
-      >9</Button>
-      <Button className="tertiary"
-        onClick={() => handleSetOperator('*')}
-      >
-        <img src={multiplication} alt="Multiplication" />
-      </Button>
-      <Button
-        onClick={() => ValueTerm(4)}
-      >4</Button>
-      <Button
-        onClick={() => ValueTerm(5)}
-      >5</Button>
-      <Button
-        onClick={() => ValueTerm(6)}
-      >6</Button>
-      <Button className="tertiary"
-        onClick={() => handleSetOperator('-')}
-      >
-        <img src={minus} alt="Minus" />
-      </Button>
-      <Button
-        onClick={() => ValueTerm(1)}
-      >1</Button>
-      <Button
-        onClick={() => ValueTerm(2)}
-      >2</Button>
-      <Button
-        onClick={() => ValueTerm(3)}
-      >3</Button>
-      <Button className="tertiary"
-        onClick={() => handleSetOperator('+')}
-      >
-        <img src={plus} alt="Plus" />
-      </Button>
-      <Button
-        onClick={() => handleSetOperator('x/-')}
-      >
-        <img src={plusminus} alt="PlusMinus" />
-      </Button>
-      <Button
-        onClick={() => ValueTerm(0)}
-      >0</Button>
-      <Button>,</Button>
-      <Button className="quartiary"
-        onClick={() => calcResult()}
-      >
-        <img src={result} alt="Equals" />
-      </Button>
+
+      <div className="operatorrow">
+        {MathOperations.map(({ color, operation, img }) => {
+          return (
+            <Button className={color} key={operation}
+              onClick={() => handleSetMathOperation(operation)}
+            >
+              {operation !== 'CE' && operation !== 'C'
+                ? <img src={img} alt="Percent" />
+                : operation
+              }
+            </Button>
+          )
+        })}
+      </div>
+
+      <KeyboardContent>
+        <KeyboardContainerTerms>
+          {MathTerms.map((term) => {
+            return (
+              <Button key={term}
+                onClick={() => handleSetValueTerm(term)}
+              >{term}</Button>
+            )
+          })}
+        </KeyboardContainerTerms>
+
+        <div className="operatorcolumn">
+          {MathOperationsBase.map(({ operation, img }) => {
+            return (
+              <Button className="tertiary" key={operation}
+                onClick={() => handleSetMathOperation(operation)}
+              >
+                <img src={img} alt={img} />
+              </Button>
+            )
+          })}
+        </div>
+      </KeyboardContent>
+
+      <div className="operatorrow">
+        <Button
+          onClick={() => handleSetMathOperation('+/-')}
+        >
+          <img src={plusminus} alt="PlusMinus" />
+        </Button>
+
+        <Button
+          onClick={() => handleSetValueTerm(0)}
+        >
+          0
+        </Button>
+
+        <Button>,</Button>
+
+        <Button className="quartiary"
+          onClick={() => handleCalcAndSetResult()}
+        >
+          <img src={result} alt="Equals" />
+        </Button>
+      </div>
     </KeyboardContainer >
   );
 };
