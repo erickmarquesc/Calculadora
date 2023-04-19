@@ -1,7 +1,6 @@
-import { Calculator } from "./components/Calculator";
 import { CalcContextProvider } from "./context/CalcContext";
+import { Calculator } from "./components/Calculator";
 import { GlobalStyle } from "./styles/global";
-
 
 export function App() {
   return (
