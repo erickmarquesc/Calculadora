@@ -10,8 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    height: 100vh;
     width: 100vw;
+    height: 100vh;
     background: linear-gradient(180deg, #807ece 0%, #8e7ece 100%);
 
     display: grid;
@@ -22,7 +22,4 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Rubik";
     letter-spacing: -0.02em;
   }
-
-
-
 `
