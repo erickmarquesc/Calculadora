@@ -1,27 +1,41 @@
-export function FunctionsMath(firstTerm: number, secondTerm: number) {
+/**
+ * Essa função calcula o resultado.
+ * 
+ * Os parametros são String, mas no escopo da função são transformados em
+ * Number.
+ * @param firstTerm String
+ * @param secondTerm String
+ * @constant firstTermInNumber = firstTerm
+ * @constant secondTermInNumber = secondTerm
+ * @example getSum = ()=>{return (firstTermInNumber + secondTermInNumber)}
+ */
+export function FunctionsMath(firstTerm: string, secondTerm: string) {
+
+  const firstTermInNumber = Number(firstTerm);
+  const secondTermInNumber = Number(secondTerm);
 
   const getSum = () => {
-    return firstTerm + secondTerm;
+    return firstTermInNumber + secondTermInNumber;
   };
 
   const getSubtraction = () => {
-    return firstTerm - secondTerm;
+    return firstTermInNumber - secondTermInNumber;
   };
 
   const getMultiplication = () => {
-    return firstTerm * secondTerm;
+    return firstTermInNumber * secondTermInNumber;
   };
 
   const getModulus = () => {
-    return firstTerm % secondTerm;
+    return firstTermInNumber % secondTermInNumber;
   };
 
   const getPercentage = () => {
-    return (firstTerm / 100) * secondTerm;
+    return (firstTermInNumber / 100) * secondTermInNumber;
   };
 
   const getDivision = () => {
-    return firstTerm / secondTerm;
+    return firstTermInNumber / secondTermInNumber;
   };
 
   return {

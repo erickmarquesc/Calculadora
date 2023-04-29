@@ -13,36 +13,37 @@ import plus from "../../assets/plus.svg";
 
 export function Keyboard() {
 
-  const { handleSetMathOperation, handleSetValueTerm, handleCalcAndSetResult } = useCalcResult();
+  const { handleValidatedAndSetMathOperator, handleSetValueTerm, handleCalcAndSetResult } = useCalcResult();
 
   const MathOperations = [
-    { operation: 'CE', color: 'secundary', img: '' },
-    { operation: 'C', color: 'secundary', img: '' },
-    { operation: '%', color: 'secundary', img: percent },
-    { operation: '/', color: 'tertiary', img: divide }];
+    { operation: 'CE', color: 'secundary', img: '', type: 'clearing' },
+    { operation: 'C', color: 'secundary', img: '', type: 'clearing' },
+    { operation: '%', color: 'secundary', img: percent, type: 'clearing' },
+    { operation: '/', color: 'tertiary', img: divide, type: 'clearing' },
+    { operation: '*', color: 'secundary', img: multiplication, type: 'operator' },
+    { operation: '-', color: 'secundary', img: minus, type: 'operator' },
+    { operation: '+', color: 'secundary', img: plus, type: 'operator' }];
 
-  const MathOperationsBase = [
-    { operation: '*', img: multiplication },
-    { operation: '-', img: minus },
-    { operation: '+', img: plus }];
-
-  const MathTerms = [7, 8, 9, 4, 5, 6, 1, 2, 3];
+  const MathTerms = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
 
   return (
     <KeyboardContainer>
 
       <div className="operatorrow">
-        {MathOperations.map(({ color, operation, img }) => {
-          return (
-            <Button className={color} key={operation}
-              onClick={() => handleSetMathOperation(operation)}
-            >
-              {operation !== 'CE' && operation !== 'C'
-                ? <img src={img} alt="Percent" />
-                : operation
-              }
-            </Button>
-          )
+        {MathOperations.map(({ color, operation, img, type }) => {
+          if (type === 'clearing') {
+            return (
+
+              <Button className={color} key={operation}
+                onClick={() => handleValidatedAndSetMathOperator(operation)}
+              >
+                {operation !== 'CE' && operation !== 'C'
+                  ? <img src={img} alt="Percent" />
+                  : operation
+                }
+              </Button>
+            )
+          }
         })}
       </div>
 
@@ -58,27 +59,30 @@ export function Keyboard() {
         </KeyboardContainerTerms>
 
         <div className="operatorcolumn">
-          {MathOperationsBase.map(({ operation, img }) => {
-            return (
-              <Button className="tertiary" key={operation}
-                onClick={() => handleSetMathOperation(operation)}
-              >
-                <img src={img} alt={img} />
-              </Button>
-            )
+          {MathOperations.map(({ operation, img, type }) => {
+            if (type === 'operator') {
+
+              return (
+                <Button className="tertiary" key={operation}
+                  onClick={() => handleValidatedAndSetMathOperator(operation)}
+                >
+                  <img src={img} alt={img} />
+                </Button>
+              )
+            }
           })}
         </div>
       </KeyboardContent>
 
       <div className="operatorrow">
         <Button
-          onClick={() => handleSetMathOperation('+/-')}
+          onClick={() => handleValidatedAndSetMathOperator('+/-')}
         >
           <img src={plusminus} alt="PlusMinus" />
         </Button>
 
         <Button
-          onClick={() => handleSetValueTerm(0)}
+          onClick={() => handleSetValueTerm('0')}
         >
           0
         </Button>

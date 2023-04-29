@@ -3,10 +3,10 @@ import { FunctionsMath } from "../utils/functions_math";
 
 export interface ICalcContextType {
   handleCalcAndSetResult: () => void;
-  handleSetMathOperation: (mathOperation: string) => void;
-  handleSetValueTerm: (value: number) => void;
-  valueFirstTerm: number;
-  valueSecondTerm: number;
+  handleValidatedAndSetMathOperator: (mathOperation: string) => void;
+  handleSetValueTerm: (value: string) => void;
+  valueFirstTerm: string;
+  valueSecondTerm: string;
   result: number;
   mathOperator: string;
 };
@@ -21,39 +21,58 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
 
   const [mathOperator, setMathOperator] = useState("#");
 
-  const [valueFirstTerm, setValueFirstTerm] = useState(0);
-  const [valueSecondTerm, setValueSecondTerm] = useState(0);
+  const [valueFirstTerm, setValueFirstTerm] = useState('0');
+  const [valueSecondTerm, setValueSecondTerm] = useState('0');
 
   const [result, setResult] = useState(0);
 
-  const handleSetValueTerm = (term: number) => {
-    /* Caso nenhum operador tenha sido escolhido
-     * a condição será verdadeira: (mathOperator === '#') = TRUE
-     * ---
-     * Sendo assim podendo escolher o número para o primeiro termo,
-     * assim que a condição for FALSE o segundo termo poderá ser escolhido.
-     */
+  /**
+   * @description
+   * A função monitora e valida o estado inicial da calculadora.
+   * 
+   * Para essa função caso nenhum operador matemático tenha sido escolhido
+   * teremos (mathOperator === '#') = TRUE assim o segundo termo não será alterado.
+   * 
+   * Sendo assim, o secundo termo só receberá um valor depois que a operação
+   * matemática for definida, quando, (mathOperator === '#') = FALSE.
+   * 
+   * @param term String
+   */
+  const handleSetValueTerm = (term: string) => {
     if (mathOperator === '#') {
-      return setValueFirstTerm(term);
+      return setValueFirstTerm(valueFirstTerm === '0' ? term : valueFirstTerm + term);
     } else {
-      return setValueSecondTerm(term);
+      return setValueSecondTerm(valueSecondTerm === '0' ? term : valueSecondTerm + term);
     }
   };
 
-  const handleSetMathOperation = (mathOperation: string) => {
+  /**
+   * @description
+   * Essa função valida se os operadores escolhido não são matemáticos,
+   * tendo a função de limpar os termos da operação.
+   * Caso o operador seja matemático ele muda o valor da variável mathOperator
+   * para q a função de calculo matemático tenha o operador para o calculo do reusltado.
+   * @param mathOperation string
+   * @returns setMathOperator(mathOperation)
+   */
+  const handleValidatedAndSetMathOperator = (mathOperation: string) => {
     if (mathOperation === 'C') {
       setResult(0);
       setMathOperator('#');
-      setValueFirstTerm(0);
-      setValueSecondTerm(0);
+      setValueFirstTerm('0');
+      setValueSecondTerm('0');
       return;
     };
 
     if (mathOperation === 'CE') {
-      setValueSecondTerm(0);
+      setValueSecondTerm('0');
       return;
     };
 
+    /**
+     * Considerei a operação '+/-' nessa função pois ela se resume
+     * em trocar o sinal do resultado
+     */
     if (mathOperation === '+/-') {
       setResult(result * -1);
       return;
@@ -62,6 +81,10 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
     return setMathOperator(mathOperation);
   };
 
+  /**
+   * Essa função calcula o resultado depois que o operador foi validado como
+   * um operador matemático.
+   */
   const handleCalcAndSetResult = () => {
 
     switch (mathOperator) {
@@ -86,7 +109,7 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
   return (
     <CalcContext.Provider value={{
       handleCalcAndSetResult,
-      handleSetMathOperation,
+      handleValidatedAndSetMathOperator,
       handleSetValueTerm,
       valueSecondTerm,
       valueFirstTerm,
