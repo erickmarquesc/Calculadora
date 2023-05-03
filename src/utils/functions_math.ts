@@ -9,41 +9,24 @@
  * @constant secondTermInNumber = secondTerm
  * @example getSum = ()=>{return (firstTermInNumber + secondTermInNumber)}
  */
-export function FunctionsMath(firstTerm: string, secondTerm: string) {
+export function FunctionsMath(firstTerm: string, secondTerm: string, mathOperator: string) {
 
   const firstTermInNumber = Number(firstTerm);
   const secondTermInNumber = Number(secondTerm);
+  const defaultResult = 0;
 
-  const getSum = () => {
-    return firstTermInNumber + secondTermInNumber;
-  };
+  switch (mathOperator) {
+    case '+':
+      return firstTermInNumber + secondTermInNumber;
+    case '-':
+      return firstTermInNumber - secondTermInNumber;
+    case 'x':
+      return firstTermInNumber * secondTermInNumber;
+    case '/':
+      return firstTermInNumber / secondTermInNumber;
+    case '%':
+      return firstTermInNumber % secondTermInNumber;
+  }
 
-  const getSubtraction = () => {
-    return firstTermInNumber - secondTermInNumber;
-  };
-
-  const getMultiplication = () => {
-    return firstTermInNumber * secondTermInNumber;
-  };
-
-  const getModulus = () => {
-    return firstTermInNumber % secondTermInNumber;
-  };
-
-  const getPercentage = () => {
-    return (firstTermInNumber / 100) * secondTermInNumber;
-  };
-
-  const getDivision = () => {
-    return firstTermInNumber / secondTermInNumber;
-  };
-
-  return {
-    getSum,
-    getSubtraction,
-    getMultiplication,
-    getModulus,
-    getPercentage,
-    getDivision
-  };
+  return defaultResult;
 };

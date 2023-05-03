@@ -1,4 +1,3 @@
-import { CheckValidOperator } from "../../utils/check_valid_operator";
 import { DisplayContainer, ResultSection } from "./styles";
 import { useCalcResult } from "../../context/CalcContext";
 import equals from "../../assets/equals.svg";
@@ -7,12 +6,14 @@ export function Display() {
 
   const { valueFirstTerm, valueSecondTerm, result, mathOperator } = useCalcResult();
 
+  const RefactorMathOperator = mathOperator === 'notSetMathOperator' ? '+' : mathOperator;
+
   return (
     <DisplayContainer>
       <div id="last-calc">
         {valueFirstTerm}
         <label>
-          {CheckValidOperator(mathOperator)}
+          {RefactorMathOperator}
         </label>
         {valueSecondTerm}</div>
       <ResultSection>
