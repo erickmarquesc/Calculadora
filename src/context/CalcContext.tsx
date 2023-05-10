@@ -18,12 +18,12 @@ export const CalcContext = createContext({} as ICalcContextType);
 
 export function CalcContextProvider({ children }: ICalcProviderProps) {
 
-  const [mathOperator, setMathOperator] = useState('notSetMathOperator');
+  const [mathOperator, setMathOperator] = useState<string>('notSetMathOperator');
 
-  const [valueFirstTerm, setValueFirstTerm] = useState('0');
-  const [valueSecondTerm, setValueSecondTerm] = useState('0');
+  const [valueFirstTerm, setValueFirstTerm] = useState<string>('0');
+  const [valueSecondTerm, setValueSecondTerm] = useState<string>('0');
 
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState<number>(0);
 
   const handleSetMathOperator = (mathOperation: string) => { 
 
@@ -58,7 +58,6 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
    * Sendo assim, o secundo termo só receberá um valor depois que a operação
    * matemática for definida, quando, (mathOperator === 'notSetMathOperator') = FALSE.
    * 
-   * @param term String
    */
   const handleSetValueTerm = (term: string) => {
     if (mathOperator === 'notSetMathOperator') {
@@ -68,13 +67,9 @@ export function CalcContextProvider({ children }: ICalcProviderProps) {
     }
   };
 
-  /**
-   * Essa função calcula o resultado depois que o operador foi validado como
-   * um operador matemático.
-   */
   const handleCalcAndSetResult = () => {
 
-    const firstTermInNumber = Number(valueFirstTerm);
+    const firstTermInNumber =  Number(valueFirstTerm);
     const secondTermInNumber = Number(valueSecondTerm);
 
     switch (mathOperator) {

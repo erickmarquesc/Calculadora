@@ -6,14 +6,14 @@ export function Display() {
 
   const { valueFirstTerm, valueSecondTerm, result, mathOperator } = useCalcResult();
 
-  const RefactorMathOperator = mathOperator === 'notSetMathOperator' ? '+' : mathOperator;
+  const refactorMathOperator = mathOperator === 'notSetMathOperator' ? '+' : mathOperator;
 
   return (
     <DisplayContainer>
       <div id="last-calc">
         {valueFirstTerm}
         <label>
-          {RefactorMathOperator}
+          {refactorMathOperator}
         </label>
         {valueSecondTerm}</div>
       <ResultSection>

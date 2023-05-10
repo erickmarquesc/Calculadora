@@ -10,36 +10,43 @@ import divide from "../../assets/divide.svg";
 import minus from "../../assets/minus.svg";
 import plus from "../../assets/plus.svg";
 
+interface IMathOperatorsProps {
+  operator: string,
+  color: 'quartiary' | 'tertiary' | 'secondary' | 'primary',
+  img: string | null,
+  isTopPosition: boolean
+}[];
 
 export function Keyboard() {
 
   const { handleSetMathOperator, handleSetValueTerm, handleCalcAndSetResult } = useCalcResult();
 
-  const MathOperators = [
-    { operator: 'CE', color: 'secundary', img: '', type: 'clearing' },
-    { operator: 'C', color: 'secundary', img: '', type: 'clearing' },
-    { operator: '%', color: 'secundary', img: percent, type: 'clearing' },
-    { operator: '/', color: 'tertiary', img: divide, type: 'clearing' },
-    { operator: 'x', color: 'secundary', img: multiplication, type: 'operator' },
-    { operator: '-', color: 'secundary', img: minus, type: 'operator' },
-    { operator: '+', color: 'secundary', img: plus, type: 'operator' }];
+  const MathOperators: IMathOperatorsProps[] = [
+    { operator: 'CE', color: "tertiary", img: null, isTopPosition: true },
+    { operator: 'C', color: "tertiary", img: null, isTopPosition: true },
+    { operator: '%', color: "tertiary", img: percent, isTopPosition: true },
+    { operator: '/', color: "tertiary", img: divide, isTopPosition: true },
+    { operator: 'x', color: "tertiary", img: multiplication, isTopPosition: false },
+    { operator: '-', color: "tertiary", img: minus, isTopPosition: false },
+    { operator: '+', color: "tertiary", img: plus, isTopPosition: false }];
 
-  const MathTerms = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
+  const MathTerms: string[] = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
 
   return (
     <KeyboardContainer>
 
       <div className="operatorrow">
-        {MathOperators.map(({ color, operator, img, type }) => {
-          if (type === 'clearing') {
+        {MathOperators.map(({ color, operator, img, isTopPosition }) => {
+          if (isTopPosition) {
             return (
-
-              <Button className={color} key={operator}
+              <Button
+                className={color}
+                key={operator}
                 onClick={() => handleSetMathOperator(operator)}
               >
-                {operator !== 'CE' && operator !== 'C'
-                  ? <img src={img} alt="Percent" />
-                  : operator
+                {img === null
+                  ? operator
+                  : <img src={img} alt="Percent" />
                 }
               </Button>
             )
@@ -51,7 +58,8 @@ export function Keyboard() {
         <KeyboardContainerTerms>
           {MathTerms.map((term) => {
             return (
-              <Button key={term}
+              <Button
+                key={term}
                 onClick={() => handleSetValueTerm(term)}
               >{term}</Button>
             )
@@ -59,14 +67,18 @@ export function Keyboard() {
         </KeyboardContainerTerms>
 
         <div className="operatorcolumn">
-          {MathOperators.map(({ operator, img, type }) => {
-            if (type === 'operator') {
-
+          {MathOperators.map(({ operator, img, isTopPosition }) => {
+            if (!isTopPosition) {
               return (
-                <Button className="tertiary" key={operator}
+                <Button
+                  className="tertiary"
+                  key={operator}
                   onClick={() => handleSetMathOperator(operator)}
                 >
-                  <img src={img} alt={img} />
+                  {img === null
+                    ? operator
+                    : <img src={img} alt={img} />
+                  }
                 </Button>
               )
             }
